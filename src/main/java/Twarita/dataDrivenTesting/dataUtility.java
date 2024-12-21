@@ -1,12 +1,13 @@
 package Twarita.dataDrivenTesting;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.util.NumberToTextConverter;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -51,17 +52,26 @@ public class dataUtility {
         		 
     			 if(rowIterator.next().getStringCellValue().equalsIgnoreCase(testCaseName)){
     				 for(int i=1; i<coolumnNo; i++) {
-    					 a.add(rowIterator.next().getStringCellValue()); 
-    				 }
+    					 Cell cell = rowIterator.next();
+    					 if(cell.getCellType()==CellType.STRING)
+    						 	a.add(cell.getStringCellValue()); 
+    				 
+    				 else 
+    					 a.add(NumberToTextConverter.toText(cell.getNumericCellValue()));
+    				 
     			 }
     		 }
     	 }
      }
         workbook.close();
         
-        return a;
         
         
-    }
+        
+    
     	
 }
+     return a;
+    	}
+}
+
